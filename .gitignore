@@ -1,2 +1,6 @@
 # Folder with binaries
 out/
+build/
+
+# IDE files
+.vscode/
