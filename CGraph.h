@@ -71,7 +71,7 @@ string CGraph::Get(int y, int x)
         {
             if(x == 0 && y == 0) return "+ ";
             else if(x == 0) return "| ";
-            else if(y == 0) return  "- ";
+            else if(y == 0) return  "— ";
         }
         return "  ";
     }
