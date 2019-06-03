@@ -63,15 +63,18 @@ string CGraph::Get(int y, int x)
         return "";
     }
 
-    // print *, if grid enable
-    if((x == 0 || y == 0) && this->gridState == true)
-        return "* ";
-
     string value = this->data[y+size][x+size];
 
-    // if cell is zero print spaces
-    if(value.empty())
+    if(value.empty()) {
+
+        if(this->gridState == true)
+        {
+            if(x == 0 && y == 0) return "+ ";
+            else if(x == 0) return "| ";
+            else if(y == 0) return  "- ";
+        }
         return "  ";
+    }
     else
         return value;
 }

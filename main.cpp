@@ -1,11 +1,15 @@
+#include <math.h>
 #include "CGraph.h"
 
 int main()
 {
-    CGraph *graph = new CGraph(30);
+    int size = 5;
+    CGraph *graph = new CGraph(size);
     graph->EnableGrid(true);
-    graph->Set(6, 5, "&");
-    graph->Set(2, 2, "*");
+    for(int i = size * -1; i < size; i++)
+    {
+        graph->Set(i*2, i, "*");
+    }
     graph->Print();
 
     delete graph;
