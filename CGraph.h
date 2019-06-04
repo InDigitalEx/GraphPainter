@@ -25,10 +25,18 @@ private:
 
 CGraph::CGraph(int value) : size(value)
 {
-    data = new string* [(size*2)+1];
-    for(int i = 0; i < (size*2)+1; i++)
+    try
     {
-        data[i] = new string[(size*2)+1];
+        data = new string* [(size*2)+1];
+        for(int i = 0; i < (size*2)+1; i++)
+        {
+            data[i] = new string[(size*2)+1];
+        }
+    }
+    catch(bad_alloc &e)
+    {
+        cout << "Runtime error: " << e.what() << endl;
+        exit(0);
     }
 }
 
