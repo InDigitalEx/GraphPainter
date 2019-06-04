@@ -36,7 +36,7 @@ CGraph::CGraph(int value) : size(value)
     catch(bad_alloc &e)
     {
         cout << "Runtime error: " << e.what() << endl;
-        exit(0);
+        exit(1);
     }
 }
 

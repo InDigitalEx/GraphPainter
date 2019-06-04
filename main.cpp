@@ -100,5 +100,7 @@ int main()
     }
 
     Graph->Print();
+
+    delete Graph;
 	return false;
 }
