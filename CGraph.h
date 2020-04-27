@@ -4,78 +4,72 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
 // CGraph
 
-class CGraph
-{
+class CGraph {
 public:
     CGraph(int value);
     ~CGraph();
-    bool Set(int y, int x, string val);
-    string Get(int y, int x);
-    bool Print();
-    bool EnableGrid(bool state);
+    bool set(int y, int x, std::string val);
+    std::string get(int y, int x);
+    bool print();
+    bool grid(bool state);
 private:
-    const int size = 0;
-    bool gridState = false;
-    string** data = nullptr;
+    std::string **data_ = nullptr;
+    const int size_ = 0;
+    int arraySize_;
+    bool grid_ = false;
 };
 
-CGraph::CGraph(int value) : size(value)
+CGraph::CGraph(int value) : size_(value)
 {
-    try
-    {
-        data = new string* [(size*2)+1];
-        for(int i = 0; i < (size*2)+1; i++)
+    arraySize_ = (size_ * 2) + 1; // -|-
+    try {
+        data_ = new std::string* [arraySize_];
+        for (int i = 0; i < arraySize_; i++)
         {
-            data[i] = new string[(size*2)+1];
+            data_[i] = new std::string[arraySize_];
         }
     }
-    catch(bad_alloc &e)
-    {
-        cout << "Runtime error: " << e.what() << endl;
+    catch(std::bad_alloc &e) {
+        std::cout << "Memory allocation error: " << e.what() << std::endl;
         exit(1);
     }
 }
 
 CGraph::~CGraph()
 {
-    for(int i = 0; i < size; i++)
-    {
-        delete[] this->data[i];
+    for (int i = 0; i < arraySize_; i++) {
+        delete[] data_[i];
     }
-    delete[] this->data;
+    delete[] data_;
 }
 
-bool CGraph::Set(int y, int x, string val)
+bool CGraph::set(int y, int x, std::string val)
 {
     // Check array bounds
-    if((size * -1) > y || y > size || (size * -1) > x || x > size) {
-        cout << "CGraph::Set error: " << y << " " << x << endl;
+    if((size_ * -1) > y || y > size_ || (size_ * -1) > x || x > size_) {
         return false;
     }
 
     // Set value to array
-    this->data[y+size][x+size] = val + " ";
+    data_[y+size_][x+size_] = val + " ";
 
     return true;
 }
 
-string CGraph::Get(int y, int x)
+std::string CGraph::get(int y, int x)
 {
     // Check array bounds
-    if((size * -1) > y || y > size || (size * -1) > x || x > size) {
-        cout << "CGraph::Get error: " << y << " " << x << endl;
+    if ((size_ * -1) > y || y > size_ || (size_ * -1) > x || x > size_) {
         return "";
     }
 
-    string value = this->data[y+size][x+size];
+    std::string value = data_[y + size_][x + size_];
 
     if(value.empty()) {
 
-        if(this->gridState == true)
+        if(grid_ == true)
         {
             if(x == 0 && y == 0) return "+ ";
             else if(x == 0) return "| ";
@@ -83,33 +77,31 @@ string CGraph::Get(int y, int x)
         }
         return "  ";
     }
-    else
+    else {
         return value;
+    }   
 }
 
-bool CGraph::Print()
+bool CGraph::print()
 {
-    int yMin = (this->size * -1);
-    int yMax = this->size + 1;
+    int yMin = (size_ * -1);
+    int yMax = size_ + 1;
 
-    int xMin = (this->size * -1);
-    int xMax = this->size + 1;
+    int xMin = (size_ * -1);
+    int xMax = size_ + 1;
 
-    for(int y = yMax-1; y >= yMin; y--)
-    {
-        for(int x = xMin; x < xMax; x++)
-        {
-            cout << this->Get(y, x);
+    for(int y = yMax-1; y >= yMin; y--) {
+        for(int x = xMin; x < xMax; x++) {
+            std::cout << this->get(y, x);
         }
-        cout << endl;
+        std::cout << std::endl;
     }
     return true;
 }
 
-bool CGraph::EnableGrid(bool state)
+bool CGraph::grid(bool state)
 {
-    this->gridState = state;
-    return true;
+    return grid_ = state;
 }
 
 #endif // GRAPH_H

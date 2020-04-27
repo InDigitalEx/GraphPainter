@@ -5,52 +5,44 @@
 
 using namespace std;
 
-int MathY(string buffer, int x)
+int mathY(string buffer, int x)
 {
     char exp;
     int value;
 
-    if(!sscanf(buffer.c_str(), "y=x%c%i", &exp, &value))
-    {
+    // Input "basic" function
+    if(!sscanf(buffer.c_str(), "y=x%c%i", &exp, &value)) {
         cout << "Invalid expression" << endl;
         exit(1);
     }
 
-    switch(exp)
-    {
-        case '+':
-        {
+    // Calculate expression
+    switch(exp) {
+        case '+': {
             x += value;
             break;
         }
-        case '-':
-        {
+        case '-': {
             x -= value;
             break;
         }
-        case '*':
-        {
+        case '*': {
             x *= value;
             break;
         }
-        case '/':
-        {
-            if(value == 0)
-            {
+        case '/': {
+            if(value == 0) {
                 cout << "Oh, Can't be diviede by zero" << endl;
-                cout << "Value set to 1" << endl;
-                value = 1;
+                exit(1);
             }
-            x = static_cast<int>(x / value);
-            break;
-        }\
-        case '^':
-        {
-            x = static_cast<int>(pow(x, value));
+            x /= value;
             break;
         }
-        default:
-        {
+        case '^': {
+            x *= x;
+            break;
+        }
+        default: {
             cout << "Invalid expression" << endl;
             exit(1);
         }
@@ -58,49 +50,45 @@ int MathY(string buffer, int x)
     return x;
 }
 
-int main()
-{
+int main() {
+    // Input array size
     int size = 0;
-    int modifer = 0;
     string buff;
 
     cout << "GraphPainter by in_dgtl" << "\n\n";
 
     cout << "Input size of graph:" << endl;
     cin >> size;
-    if(!cin)
-    {
+    if(!cin) {
         cout << "Invalid input" << endl;
         exit(1);
     }
 
     cout << "Input function chart (Example: y=x*2)" << endl;
     cin >> buff;
-    if(!cin)
-    {
+    if(!cin) {
         cout << "Invalid input" << endl;
         exit(1);
     }
 
-
+    // Create instance of Graph class
     CGraph* Graph = new CGraph(size);
-    Graph->EnableGrid(true);
+    Graph->grid(true);
 
+    // Calculate symbols of graph and show this
     string character;
-    for(int x = size*-1; x <= size; x++)
-    {
-        int y = MathY(buff, x);
-        int yLast = MathY(buff, x+1);
+    for(int x = size * -1; x <= size; x++) {
+        int y = mathY(buff, x);
+        int yLast = mathY(buff, x+1);
 
         if(y == yLast) character = "—";
         else if(y < yLast) character = "/";
         else if(y > yLast) character = "\\";
 
-        Graph->Set(y, x, character);
+        Graph->set(y, x, character);
     }
-
-    Graph->Print();
-
+    Graph->print();
     delete Graph;
-	return false;
+
+	return 0;
 }
